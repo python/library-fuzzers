@@ -16,4 +16,7 @@ def FuzzerRunOne(FuzzerInput):
                 tarinfo.gname
     except tarfile.TarError:
         return
-
+    except UnicodeDecodeError:
+        return
+    except EOFError:
+        return
