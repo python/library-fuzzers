@@ -52,12 +52,14 @@ repository and run the following to build the base and fuzzer image:
 ```sh
 python infra/helper.py build_image python3-libraries
 python infra/helper.py build_fuzzers python3-libraries
+```
 
 Once this succeeds you have the proper toolset to locally develop fuzzers.
 You can run fuzz targets using the same helper script:
 
 ```sh
 python infra/helper.py run_fuzzer python3-libraries fuzzer-email
+```
 
 This will run the fuzzer indefinitely, so stop the fuzzer whenever
 you've confirmed that it works.
