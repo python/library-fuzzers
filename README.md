@@ -43,7 +43,7 @@ To do develop locally with OSS-Fuzz you need to fork and clone the
 following repositories:
 
 * https://github.com/google/oss-fuzz
-* https://github.com/hugovk/python-library-fuzzers
+* https://github.com/python/library-fuzzers
 * https://github.com/python/cpython
 
 After cloning forks of these repositories, move into the `oss-fuzz`
@@ -74,7 +74,7 @@ which repository you are modifying during development.
 
 ```diff
 -RUN git clone https://github.com/python/cpython.git cpython
--RUN git clone --depth 1 https://github.com/hugovk/python-library-fuzzers.git
+-RUN git clone --depth 1 https://github.com/python/library-fuzzers.git
 +RUN git clone --depth 1 --branch fork-branch https://github.com/sethmlarson/cpython.git cpython
 +RUN git clone --depth 1 --branch fork-branch https://github.com/sethmlarson/python-library-fuzzers.git
 ```
