@@ -76,7 +76,7 @@ which repository you are modifying during development.
 -RUN git clone https://github.com/python/cpython.git cpython
 -RUN git clone --depth 1 https://github.com/python/library-fuzzers.git
 +RUN git clone --depth 1 --branch fork-branch https://github.com/sethmlarson/cpython.git cpython
-+RUN git clone --depth 1 --branch fork-branch https://github.com/sethmlarson/python-library-fuzzers.git
++RUN git clone --depth 1 --branch fork-branch https://github.com/sethmlarson/library-fuzzers.git
 ```
 
 After this you can now re-run the `python infra/helper.py` commands to rebuild the image and fuzzers
