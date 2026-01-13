@@ -37,6 +37,21 @@ Components that are hosted elsewhere:
 When you create a new fuzz target **don't forget to add the target to the fuzzer image**
 so that the fuzz target is executed by OSS-Fuzz.
 
+## Adding fuzzing to CPython CI
+
+Fuzzing Python standard library modules using continuous integration
+can be done using CIFuzz and GitHub Actions. There is an existing
+configuration for CPython, but running fuzzing is expensive so
+only runs when particular files are modified.
+
+When a standard library module has a new fuzzer added to this repository
+we also need to add a corresponding "trigger" within the CPython repository.
+In the file `Tools/build/compute-changes.py`, there is a list of
+file and directory paths (`LIBRARY_FUZZER_PATHS`) that would trigger
+a run of the standard library fuzzers within the pull request.
+Add relevant paths and files to this list for the newly added fuzzer
+to trigger fuzzing when those files are changed.
+
 ## Local development
 
 To do develop locally with OSS-Fuzz you need to fork and clone the
