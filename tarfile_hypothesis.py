@@ -1,7 +1,7 @@
 import io
 import tarfile
 
-from hypothesis import given
+from hypothesis import given, settings
 from hypothesis import strategies as st
 
 
@@ -32,6 +32,7 @@ def tar_integers(
 
 
 @st.composite
+@settings(print_blob=True)
 def tar_archives(draw):
     buf = io.BytesIO()
     format = draw(
@@ -45,7 +46,7 @@ def tar_archives(draw):
             name=draw(utf8_text(min_size=1, max_size=tarfile.LENGTH_NAME))
         )
         if draw(st.booleans()):
-            fileobj = io.BytesIO(draw(st.binary(min_size=0, max_size=0xFFFFFFFF)))
+            fileobj = io.BytesIO(draw(st.binary(min_size=0, max_size=0xFFFF)))
         else:
             fileobj = None
 
@@ -84,11 +85,14 @@ def tar_archives(draw):
 
 
 @given(tar_archives())
+@settings(print_blob=True)
 def tar_archive_fuzz_target(buf_tar: tuple[io.BytesIO, tarfile.TarFile]) -> None:
     buf, tar1 = buf_tar
     tar2 = tarfile.TarFile(fileobj=buf)
     # Assert that tar files round-trip.
-    assert list(tar1.getmembers()) == list(tar2.getmembers())
+    assert list(tar1.getmembers()) == list(tar2.getmembers()), (
+        repr(buf.getvalue())
+    )
 
 
 # Exposes the Hypothesis fuzz target for integrating with OSS-Fuzz.
