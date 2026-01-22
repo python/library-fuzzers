@@ -57,7 +57,7 @@ def zip_archives(draw):
 
         zpi.compress_type = draw(st.sampled_from(compression_types))
         zpi._compresslevel = draw(st.integers(min_value=1, max_value=9))
-        zpi.comment = draw(utf8_text(min_size=0, max_size=0xFFFF))
+        zpi.comment = draw(st.binary(min_size=0, max_size=0xFFFF))
 
         force_zip64 = draw(st.booleans())
         with zfp.open(zpi, mode="w", force_zip64=force_zip64) as f:
@@ -67,12 +67,19 @@ def zip_archives(draw):
     return buf, zfp
 
 
+def zipinfo_dict(zi):
+    return {k: getattr(zip, k, None) for k in zi.__slots__}
+
+
+
 @given(zip_archives())
 def zip_archive_fuzz_target(buf_zfp: tuple[io.BytesIO, zipfile.ZipFile]) -> None:
     buf, zfp1 = buf_zfp
+    zi1 = [zipinfo_dict(zi) for zi in zfp1.infolist()]
     with zipfile.ZipFile(buf, "r") as zfp2:
-        # Assert that ZIP files round-trip.
-        assert list(zfp1.infolist()) == list(zfp2.infolist())
+        zi2 = [zipinfo_dict(zi) for zi in zfp2.infolist()]
+    # Assert that ZIP files round-trip.
+    assert (zi1 == zi2), f"{zi1!r} != {zi2!r}" 
 
 
 # Exposes the Hypothesis fuzz target for integrating with OSS-Fuzz.
