@@ -97,3 +97,8 @@ def tar_archive_fuzz_target(buf_tar: tuple[io.BytesIO, tarfile.TarFile]) -> None
 
 # Exposes the Hypothesis fuzz target for integrating with OSS-Fuzz.
 FuzzerRunOne = tar_archive_fuzz_target.hypothesis.fuzz_one_input
+
+# Pre-compute Hypothesis's Unicode charmap at module load time to avoid
+# timeouts.
+# See https://github.com/HypothesisWorks/hypothesis/issues/1153
+st.text().example()
