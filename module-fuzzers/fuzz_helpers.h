@@ -36,6 +36,10 @@ extern "C" int LLVMFuzzerInitialize(int *argc, char ***argv) {
   status = Py_InitializeFromConfig(&config);
   if (PyStatus_Exception(status)) goto fail;
   PyConfig_Clear(&config);
+
+  // Suppress Python warnings globally — all fuzzers want this.
+  PyRun_SimpleString("import warnings; warnings.filterwarnings('ignore')");
+
   return 0;
 fail:
   PyConfig_Clear(&config);
@@ -117,21 +121,34 @@ static PyObject *fuzz_bytes_to_str(const std::string &data, int method) {
       return PyUnicode_DecodeUTF16(
           data.data(), data.size(), "replace", &order);
     }
-    case 3: {
+    default: {
       int order = -1;  // little-endian
       return PyUnicode_DecodeUTF32(
           data.data(), data.size(), "replace", &order);
     }
   }
-  return PyUnicode_DecodeLatin1(Y(data), NULL);  // unreachable
+}
+
+// Run a Python code string and extract a named attribute from the resulting
+// globals dict. Returns a new reference. Aborts on failure — called only
+// during one-time init.
+static PyObject *run_python_and_get(const char *code, const char *name) {
+  PyObject *globals = PyDict_New();
+  if (!globals) { PyErr_Print(); abort(); }
+  PyDict_SetItemString(globals, "__builtins__", PyEval_GetBuiltins());
+  PyObject *r = PyRun_String(code, Py_file_input, globals, globals);
+  if (!r) { PyErr_Print(); Py_DECREF(globals); abort(); }
+  Py_DECREF(r);
+  PyObject *attr = PyDict_GetItemString(globals, name);  // borrowed
+  if (!attr) { PyErr_Print(); Py_DECREF(globals); abort(); }
+  Py_INCREF(attr);
+  Py_DECREF(globals);
+  return attr;
 }
 
 // ---------------------------------------------------------------------------
 // Constants
 // ---------------------------------------------------------------------------
-
-// How often (in iterations) to run PyGC_Collect().
-static constexpr int kGcInterval = 200;
 
 // Maximum fuzz input size (1 MB).
 static constexpr size_t kMaxInputSize = 0x100000;
