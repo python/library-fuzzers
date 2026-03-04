@@ -68,10 +68,11 @@ def FuzzerRunOne(FuzzerInput):
             with tarfile.open(fileobj=io.BytesIO(FuzzerInput), ignore_zeros=True, errorlevel=0) as tf:
                 tf.extractall(path=tmp_dir, filter="data")
         finally:
+            opened_paths = record.paths
             shutil.rmtree(tmp_dir)
 
     # Assert that every opened file is a subdirectory
     # of the extraction directory.
-    assert has_file == bool(record.paths), "Recorded paths was empty, despite files in archive"
-    for filepath in record.paths:
+    assert has_file == bool(opened_paths), "Recorded paths was empty, despite files in archive"
+    for filepath in opened_paths:
         assert pathlib.Path(filepath).is_relative_to(tmp_dir), f"{filepath} is not relative to {tmp_dir}"
