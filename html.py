@@ -17,5 +17,7 @@ def FuzzerRunOne(FuzzerInput):
     parser = MyHTMLParser()
     try:
         parser.feed(FuzzerInput.decode("utf-8", "replace"))
+    except SystemError:
+        raise
     except:
         pass

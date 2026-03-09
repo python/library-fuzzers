@@ -4,5 +4,7 @@ def FuzzerRunOne(FuzzerInput):
     B = FuzzerInput[l:].decode("utf-8", "replace").strip()
     try:
         A.decode(B)
+    except SystemError:
+        raise
     except:
         pass

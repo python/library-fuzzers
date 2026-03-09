@@ -11,6 +11,8 @@ def FuzzerRunOne(FuzzerInput):
     response = client.HTTPResponse(Sock(FuzzerInput))
     try:
         response.begin()
+    except SystemError:
+        raise
     except:
         pass
 

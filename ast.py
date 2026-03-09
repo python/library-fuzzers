@@ -15,5 +15,7 @@ def FuzzerRunOne(FuzzerInput):
     try:
         parsed = ast.parse(FuzzerInput)
         unparsed = ast.unparse(parsed)
+    except SystemError:
+        raise
     except:
         pass
