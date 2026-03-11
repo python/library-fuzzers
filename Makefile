@@ -1,4 +1,4 @@
-all : fuzzer-html fuzzer-email fuzzer-httpclient fuzzer-json fuzzer-difflib fuzzer-csv fuzzer-decode fuzzer-ast fuzzer-tarfile fuzzer-tarfile-hypothesis fuzzer-zipfile fuzzer-zipfile-hypothesis fuzzer-re fuzzer-configparser fuzzer-tomllib fuzzer-plistlib fuzzer-xml
+all : fuzzer-html fuzzer-email fuzzer-httpclient fuzzer-json fuzzer-difflib fuzzer-csv fuzzer-decode fuzzer-ast fuzzer-tarfile fuzzer-tarfile-hypothesis fuzzer-zipfile fuzzer-zipfile-hypothesis fuzzer-re fuzzer-configparser fuzzer-tomllib fuzzer-plistlib fuzzer-xml fuzzer-zoneinfo
 
 PYTHON_CONFIG_PATH=$(CPYTHON_INSTALL_PATH)/bin/python3-config
 CXXFLAGS += $(shell $(PYTHON_CONFIG_PATH) --cflags)
@@ -38,3 +38,5 @@ fuzzer-plistlib:
 	clang++ $(CXXFLAGS) $(LIB_FUZZING_ENGINE) -std=c++17 fuzzer.cpp -DPYTHON_HARNESS_PATH="\"plist.py\"" -ldl $(LDFLAGS) -o fuzzer-plistlib
 fuzzer-xml:
 	clang++ $(CXXFLAGS) $(LIB_FUZZING_ENGINE) -std=c++17 fuzzer.cpp -DPYTHON_HARNESS_PATH="\"xml.py\"" -ldl $(LDFLAGS) -o fuzzer-xml
+fuzzer-zoneinfo:
+	clang++ $(CXXFLAGS) $(LIB_FUZZING_ENGINE) -std=c++17 fuzzer.cpp -DPYTHON_HARNESS_PATH="\"zoneinfo.py\"" -ldl $(LDFLAGS) -o fuzzer-zoneinfo
