@@ -1,7 +1,9 @@
 import difflib
 
 def FuzzerRunOne(FuzzerInput):
-    if len(FuzzerInput) == 0:
+    # SequenceMatcher is quadratic time worst case (see Lib/difflib.py).
+    # Cap input size to avoid timeouts on large inputs.
+    if not 0 < len(FuzzerInput) < 4096:
         return
     l = int(len(FuzzerInput)/2)
     A = FuzzerInput[:l].decode("utf-8", "replace").splitlines()
