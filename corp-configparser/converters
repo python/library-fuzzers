@@ -1,0 +1,6 @@
+[s]
+str = string
+int = 1
+float = 0.5
+list = a b c d e f g
+bool = yes
