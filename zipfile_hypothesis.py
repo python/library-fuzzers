@@ -71,7 +71,6 @@ def zipinfo_dict(zi):
     return {k: getattr(zi, k, None) for k in zi.__slots__}
 
 
-
 @given(zip_archives())
 def zip_archive_fuzz_target(buf_zfp: tuple[io.BytesIO, zipfile.ZipFile]) -> None:
     buf, zfp1 = buf_zfp
