@@ -68,7 +68,7 @@ def zip_archives(draw):
 
 
 def zipinfo_dict(zi):
-    return {k: getattr(zip, k, None) for k in zi.__slots__}
+    return {k: getattr(zi, k, None) for k in zi.__slots__}
 
 
 
