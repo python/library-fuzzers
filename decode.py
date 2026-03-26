@@ -1,10 +1,20 @@
+from encodings.aliases import aliases
+
+ALL_CODECS = sorted(set(aliases.values()))
+
 def FuzzerRunOne(FuzzerInput):
-    l = int(len(FuzzerInput)/2)
-    A = FuzzerInput[:l]
-    B = FuzzerInput[l:].decode("utf-8", "replace").strip()
+    if len(FuzzerInput) < 2:
+        return
+    if FuzzerInput[0] & 1:
+        codec = ALL_CODECS[FuzzerInput[1] % len(ALL_CODECS)]
+        data = FuzzerInput[2:]
+    else:
+        l = len(FuzzerInput) // 2
+        codec = FuzzerInput[l:].decode("utf-8", "replace").strip()
+        data = FuzzerInput[:l]
     try:
-        A.decode(B)
+        data.decode(codec)
     except SystemError:
         raise
-    except:
+    except Exception:
         pass
