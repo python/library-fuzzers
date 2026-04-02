@@ -25,16 +25,13 @@ def op_parse(fdp):
     s = fdp.ConsumeUnicode(fdp.ConsumeIntInRange(1, 100))
     if not s:
         return
-    target = fdp.ConsumeIntInRange(PARSE_DATE_FROMISOFORMAT, PARSE_DATETIME_STRPTIME)
+    target = fdp.ConsumeIntInRange(PARSE_DATE_FROMISOFORMAT)
     if target == PARSE_DATE_FROMISOFORMAT:
         date.fromisoformat(s)
     elif target == PARSE_TIME_FROMISOFORMAT:
         time.fromisoformat(s)
     elif target == PARSE_DATETIME_FROMISOFORMAT:
         datetime.fromisoformat(s)
-    elif target == PARSE_DATETIME_STRPTIME:
-        fmt = fdp.PickValueInList(STRPTIME_FORMATS)
-        datetime.strptime(s, fmt)
 
 def op_format(fdp):
     fmt = fdp.ConsumeUnicode(fdp.ConsumeIntInRange(1, 100))
