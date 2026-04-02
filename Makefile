@@ -1,4 +1,4 @@
-all : fuzzer-html fuzzer-email fuzzer-httpclient fuzzer-json fuzzer-difflib fuzzer-csv fuzzer-decode fuzzer-ast fuzzer-tarfile fuzzer-tarfile-hypothesis fuzzer-zipfile fuzzer-zipfile-hypothesis fuzzer-re fuzzer-configparser fuzzer-tomllib fuzzer-plistlib fuzzer-xml fuzzer-zoneinfo fuzzer-array fuzzer-binascii fuzzer-codecs fuzzer-collections fuzzer-compression fuzzer-crypto fuzzer-datetime fuzzer-dbm fuzzer-expat fuzzer-ioops fuzzer-json-decode fuzzer-json-encode fuzzer-locale fuzzer-mmap fuzzer-operator fuzzer-pickle fuzzer-ssl fuzzer-time fuzzer-unicodedata
+all : fuzzer-html fuzzer-email fuzzer-httpclient fuzzer-json fuzzer-difflib fuzzer-csv fuzzer-decode fuzzer-ast fuzzer-tarfile fuzzer-tarfile-hypothesis fuzzer-zipfile fuzzer-zipfile-hypothesis fuzzer-re fuzzer-configparser fuzzer-tomllib fuzzer-plistlib fuzzer-xml fuzzer-zoneinfo fuzzer-array fuzzer-binascii fuzzer-codecs fuzzer-collections fuzzer-compression fuzzer-crypto fuzzer-datetime fuzzer-dbm fuzzer-expat fuzzer-ioops fuzzer-json-decode fuzzer-json-encode fuzzer-locale fuzzer-mmap fuzzer-operator fuzzer-pickle fuzzer-ssl fuzzer-unicodedata
 
 PYTHON_CONFIG_PATH=$(CPYTHON_INSTALL_PATH)/bin/python3-config
 CXXFLAGS += $(shell $(PYTHON_CONFIG_PATH) --cflags)
@@ -74,7 +74,5 @@ fuzzer-pickle:
 	clang++ $(CXXFLAGS) $(LIB_FUZZING_ENGINE) -std=c++17 fuzzer.cpp -DPYTHON_HARNESS_PATH="\"fuzz_pickle.py\"" -ldl $(LDFLAGS) -o fuzzer-pickle
 fuzzer-ssl:
 	clang++ $(CXXFLAGS) $(LIB_FUZZING_ENGINE) -std=c++17 fuzzer.cpp -DPYTHON_HARNESS_PATH="\"fuzz_ssl.py\"" -ldl $(LDFLAGS) -o fuzzer-ssl
-fuzzer-time:
-	clang++ $(CXXFLAGS) $(LIB_FUZZING_ENGINE) -std=c++17 fuzzer.cpp -DPYTHON_HARNESS_PATH="\"fuzz_time.py\"" -ldl $(LDFLAGS) -o fuzzer-time
 fuzzer-unicodedata:
 	clang++ $(CXXFLAGS) $(LIB_FUZZING_ENGINE) -std=c++17 fuzzer.cpp -DPYTHON_HARNESS_PATH="\"fuzz_unicodedata.py\"" -ldl $(LDFLAGS) -o fuzzer-unicodedata
