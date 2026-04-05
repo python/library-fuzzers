@@ -8,4 +8,3 @@ def FuzzerRunOne(FuzzerInput):
         tomllib.loads(FuzzerInput.decode("utf-8", "replace"))
     except POSSIBLE_EXCEPTIONS:
         return
-
