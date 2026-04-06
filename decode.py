@@ -1,7 +1,7 @@
 def FuzzerRunOne(FuzzerInput):
-    l = int(len(FuzzerInput)/2)
-    A = FuzzerInput[:l]
-    B = FuzzerInput[l:].decode("utf-8", "replace").strip()
+    half = int(len(FuzzerInput) / 2)
+    A = FuzzerInput[:half]
+    B = FuzzerInput[half:].decode("utf-8", "replace").strip()
     try:
         A.decode(B)
     except SystemError:

@@ -1,6 +1,5 @@
-import urllib.robotparser
-from urllib.parse import urlparse
 from html.parser import HTMLParser
+
 
 class MyHTMLParser(HTMLParser):
     def handle_starttag(self, tag, attrs):

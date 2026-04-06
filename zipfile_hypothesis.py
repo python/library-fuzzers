@@ -38,7 +38,7 @@ def zip_archives(draw):
         zipfile.ZIP_LZMA,
     ]
     try:
-        import compression.zstd
+        import compression.zstd  # noqa: F401
 
         compression_types.append(zipfile.ZIP_ZSTANDARD)
     except ImportError:
@@ -78,7 +78,7 @@ def zip_archive_fuzz_target(buf_zfp: tuple[io.BytesIO, zipfile.ZipFile]) -> None
     with zipfile.ZipFile(buf, "r") as zfp2:
         zi2 = [zipinfo_dict(zi) for zi in zfp2.infolist()]
     # Assert that ZIP files round-trip.
-    assert (zi1 == zi2), f"{zi1!r} != {zi2!r}" 
+    assert zi1 == zi2, f"{zi1!r} != {zi2!r}"
 
 
 # Exposes the Hypothesis fuzz target for integrating with OSS-Fuzz.

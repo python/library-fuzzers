@@ -1,5 +1,6 @@
 import json
 
+
 def FuzzerRunOne(FuzzerInput):
     try:
         obj = json.loads(FuzzerInput.decode("utf-8", "replace"))
@@ -11,4 +12,3 @@ def FuzzerRunOne(FuzzerInput):
         return
     enc = json.dumps(obj)
     obj2 = json.loads(enc)
-

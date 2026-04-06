@@ -1,6 +1,7 @@
 import plistlib
 import xml.parsers.expat
 
+
 def FuzzerRunOne(FuzzerInput):
     try:
         data = plistlib.loads(FuzzerInput)
@@ -15,4 +16,3 @@ def FuzzerRunOne(FuzzerInput):
         return
     except OverflowError:
         return
-

@@ -90,9 +90,7 @@ def tar_archive_fuzz_target(buf_tar: tuple[io.BytesIO, tarfile.TarFile]) -> None
     buf, tar1 = buf_tar
     tar2 = tarfile.TarFile(fileobj=buf)
     # Assert that tar files round-trip.
-    assert list(tar1.getmembers()) == list(tar2.getmembers()), (
-        repr(buf.getvalue())
-    )
+    assert list(tar1.getmembers()) == list(tar2.getmembers()), repr(buf.getvalue())
 
 
 # Exposes the Hypothesis fuzz target for integrating with OSS-Fuzz.
