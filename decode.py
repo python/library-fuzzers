@@ -1,6 +1,12 @@
-from encodings.aliases import aliases
+import encodings
+import pkgutil
 
-ALL_CODECS = sorted(set(aliases.values()))
+ALL_CODECS = sorted(
+    name
+    for _, name, _ in pkgutil.iter_modules(encodings.__path__)
+    if not name.startswith("_") and name != "aliases"
+)
+
 
 def FuzzerRunOne(FuzzerInput):
     if len(FuzzerInput) < 2:
