@@ -101,4 +101,6 @@ def FuzzerRunOne(FuzzerInput):
     # Assert that every opened file is a subdirectory
     # of the extraction directory.
     for filepath in record.paths:
-        assert pathlib.Path(filepath).is_relative_to(tmp_dir), f"{filepath} is not relative to {tmp_dir}"
+        assert pathlib.Path(filepath).is_relative_to(tmp_dir), (
+            f"{filepath} is not relative to {tmp_dir}"
+        )

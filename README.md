@@ -28,7 +28,7 @@ Components that are hosted in this repository:
 
 Components that are hosted elsewhere:
 
-* [Project configuration](https://github.com/google/oss-fuzz/tree/master/projects/python3-libraries): 
+* [Project configuration](https://github.com/google/oss-fuzz/tree/master/projects/python3-libraries):
   This component controls the OSS-Fuzz project definition, maintainers.
 * [Fuzzer image configuration](https://github.com/google/oss-fuzz/tree/master/projects/python3-libraries):
   `Dockerfile` and `build.sh` describe how the fuzzer

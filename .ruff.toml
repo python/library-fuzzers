@@ -1,0 +1,5 @@
+[lint]
+ignore = [
+    "E722",  # bare except
+    "F841",  # unused variable
+]

@@ -37,10 +37,13 @@ class OpenFileRecorder:
 
 sys.addaudithook(OpenFileRecorder._sys_audit_record_open)
 
+
 def FuzzerRunOne(FuzzerInput):
     has_file = False
     try:
-        with tarfile.open(fileobj=io.BytesIO(FuzzerInput), ignore_zeros=True, errorlevel=0) as tf:
+        with tarfile.open(
+            fileobj=io.BytesIO(FuzzerInput), ignore_zeros=True, errorlevel=0
+        ) as tf:
             for tarinfo in tf:
                 tarinfo.name
                 tarinfo.size
@@ -65,7 +68,9 @@ def FuzzerRunOne(FuzzerInput):
     # relative to the extraction directory.
     with tempfile.TemporaryDirectory() as tmp_dir, OpenFileRecorder() as record:
         try:
-            with tarfile.open(fileobj=io.BytesIO(FuzzerInput), ignore_zeros=True, errorlevel=0) as tf:
+            with tarfile.open(
+                fileobj=io.BytesIO(FuzzerInput), ignore_zeros=True, errorlevel=0
+            ) as tf:
                 tf.extractall(path=tmp_dir, filter="data")
         finally:
             opened_paths = record.paths
@@ -73,6 +78,10 @@ def FuzzerRunOne(FuzzerInput):
 
     # Assert that every opened file is a subdirectory
     # of the extraction directory.
-    assert has_file == bool(opened_paths), "Recorded paths was empty, despite files in archive"
+    assert has_file == bool(opened_paths), (
+        "Recorded paths was empty, despite files in archive"
+    )
     for filepath in opened_paths:
-        assert pathlib.Path(filepath).is_relative_to(tmp_dir), f"{filepath} is not relative to {tmp_dir}"
+        assert pathlib.Path(filepath).is_relative_to(tmp_dir), (
+            f"{filepath} is not relative to {tmp_dir}"
+        )

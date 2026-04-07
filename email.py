@@ -1,12 +1,11 @@
-from email.parser import BytesParser, Parser
-from email.policy import default, HTTP
+from email.parser import Parser
+from email.policy import HTTP
+
 
 def FuzzerRunOne(FuzzerInput):
     try:
         Parser(policy=HTTP).parsestr(FuzzerInput.decode("utf-8", "replace"))
-    #    #Parser(policy=default).parsestr(FuzzerInput.decode("utf-8", "replace"))
     except SystemError:
         raise
     except:
         pass
-
