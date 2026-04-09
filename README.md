@@ -25,7 +25,7 @@ Components that are hosted in this repository:
   the fuzzer can use when mutating input sequences.
 * Coverage header file (`python_coverage.h`): This file is compiled with CPython
   so that line coverage is tracked over time as the fuzzer executes.
-* Fuzz test list (`fuzz_tests.txt`): This file lists all fuzz targets and is
+* Fuzz test list (`fuzz_targets.txt`): This file lists all fuzz targets and is
   read by the OSS-Fuzz build script.
 
 Components that are hosted elsewhere:
@@ -36,7 +36,7 @@ Components that are hosted elsewhere:
   `Dockerfile` and `build.sh` describe how the fuzzer
   image is built and what fuzz targets are executed by OSS-Fuzz.
 
-When you create a new fuzz target, add the target to `fuzz_tests.txt` so that it
+When you create a new fuzz target, add the target to `fuzz_targets.txt` so that it
 is executed by OSS-Fuzz.
 
 ## Adding fuzzing to CPython CI
