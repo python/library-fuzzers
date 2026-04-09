@@ -16,8 +16,9 @@
 
 static std::string ToAbsolutePath(const std::string argv0, const std::string relativePath) {
     char absoluteRootPath[PATH_MAX+1];
-    std::vector<char> argv0Copy(argv0.c_str(), argv0.c_str() + argv0.size() + 1);
-    if ( realpath(dirname(argv0Copy.data()), absoluteRootPath) == nullptr ) {
+    char argv0Copy[argv0.size()+1];
+    memcpy(argv0Copy, argv0.c_str(), argv0.size()+1);
+    if ( realpath(dirname(argv0Copy), absoluteRootPath) == nullptr ) {
         printf("Fatal error: Cannot resolve absolute root path\n");
         abort();
     }
