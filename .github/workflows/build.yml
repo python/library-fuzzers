@@ -1,7 +1,6 @@
 name: Build
 
-permissions:
-  contents: read
+permissions: {}
 
 on:
   pull_request:
