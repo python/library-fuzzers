@@ -5,6 +5,7 @@ csv csv.py
 decode decode.py
 difflib difflib.py
 email email.py
+expat expat.py
 html html.py
 httpclient httpclient.py
 json json.py
