@@ -2,6 +2,7 @@ ast ast.py
 binascii binascii.py
 configparser configparser.py
 csv csv.py
+datetime datetime.py
 decode decode.py
 difflib difflib.py
 email email.py
