@@ -1,0 +1,52 @@
+name: Build
+
+permissions: {}
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - '**.md'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    concurrency:
+      group: ${{ github.workflow }}-${{ matrix.sanitizer }}-${{ github.ref }}
+      cancel-in-progress: true
+    strategy:
+      fail-fast: false
+      matrix:
+        sanitizer:
+          - address
+          # - memory  Too slow for CI
+          - undefined
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          repository: google/oss-fuzz
+          path: oss-fuzz
+
+      - name: Patch Dockerfile to use this ref
+        run: |
+          sed -i "s|git clone --depth 1 --branch main https://github.com/python/library-fuzzers.git|git clone --depth 1 --branch ${{ github.head_ref }} ${{ github.event.pull_request.head.repo.clone_url }} library-fuzzers|" \
+            oss-fuzz/projects/python3-libraries/Dockerfile
+
+      - name: Build fuzzers
+        run: |
+          cd oss-fuzz
+          python infra/helper.py build_fuzzers python3-libraries \
+            --engine libfuzzer \
+            --sanitizer ${{ matrix.sanitizer }} \
+            --architecture x86_64
+
+      - name: Check build
+        run: |
+          cd oss-fuzz
+          python infra/helper.py check_build python3-libraries \
+            --engine libfuzzer \
+            --sanitizer ${{ matrix.sanitizer }} \
+            --architecture x86_64

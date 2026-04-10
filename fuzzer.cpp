@@ -2,7 +2,6 @@
 #include <cstdlib>
 #include <iomanip>
 #include <libgen.h>
-#include <sstream>
 #include <vector>
 #include <string>
 #include <optional>
@@ -63,14 +62,6 @@ extern "C" int LLVMFuzzerInitialize(int* argc, char*** argv) {
     fclose(fp);
 
     std::string code = std::string(program.data(), program.data() + program.size());
-
-#if 0
-    {
-        wchar_t *program = Py_DecodeLocale(argv0.c_str(), nullptr);
-        Py_SetProgramName(program);
-        PyMem_RawFree(program);
-    }
-#endif
 
     Py_Initialize();
 
