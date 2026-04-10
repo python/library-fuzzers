@@ -17,6 +17,8 @@ repos:
         exclude: ^corp-
       - id: end-of-file-fixer
         exclude: ^corp-
+      - id: file-contents-sorter
+        files: '^fuzz_targets.txt$'
       - id: trailing-whitespace
         exclude: ^corp-
 
