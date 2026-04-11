@@ -4,9 +4,6 @@ updates:
     directory: "/"
     schedule:
       interval: "quarterly"
-    labels:
-      - "skip issue"
-      - "skip news"
     ignore:
       - dependency-name: "*"
         update-types:
