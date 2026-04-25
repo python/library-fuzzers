@@ -79,10 +79,11 @@ extern "C" int LLVMFuzzerInitialize(int* argc, char*** argv) {
     }
 
     {
+        const std::string absoluteScriptDir = absoluteScriptPath.substr(0, absoluteScriptPath.find_last_of('/'));
         std::string setPYTHONPATH;
         setPYTHONPATH += "import sys";
         setPYTHONPATH += "\n";
-        setPYTHONPATH += "sys.path.append('" + absoluteScriptPath + "')\n";
+        setPYTHONPATH += "sys.path.append('" + absoluteScriptDir + "')\n";
         setPYTHONPATH += "\n";
         if ( PyRun_SimpleString(setPYTHONPATH.c_str()) != 0 ) {
             printf("Fatal: Cannot set PYTHONPATH\n");

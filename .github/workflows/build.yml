@@ -53,4 +53,5 @@ jobs:
           python infra/helper.py check_build python3-libraries \
             --engine libfuzzer \
             --sanitizer ${{ matrix.sanitizer }} \
-            --architecture x86_64
+            --architecture x86_64 \
+            -e ALLOWED_BROKEN_TARGETS_PERCENTAGE=0
