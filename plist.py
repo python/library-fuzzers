@@ -9,6 +9,8 @@ def FuzzerRunOne(FuzzerInput):
         return
     except xml.parsers.expat.ExpatError:
         return
+    except ValueError:
+        return
     try:
         plistlib.dumps(data, skipkeys=True, fmt=plistlib.FMT_XML)
         plistlib.dumps(data, skipkeys=True, fmt=plistlib.FMT_BINARY)
