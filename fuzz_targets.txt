@@ -8,6 +8,7 @@ email email.py
 html html.py
 httpclient httpclient.py
 json json.py
+json-encode json_encode.py
 plistlib plist.py
 re re.py
 tarfile tarfile.py
