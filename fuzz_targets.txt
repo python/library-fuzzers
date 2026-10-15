@@ -1,5 +1,6 @@
 ast ast.py
 binascii binascii.py
+collections collections.py
 configparser configparser.py
 csv csv.py
 decode decode.py
