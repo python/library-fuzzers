@@ -7,6 +7,7 @@ difflib difflib.py
 email email.py
 html html.py
 httpclient httpclient.py
+io io.py
 json json.py
 plistlib plist.py
 re re.py
