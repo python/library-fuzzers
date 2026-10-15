@@ -1,4 +1,5 @@
 import io
+import lzma
 import sys
 import shutil
 import pathlib
@@ -80,6 +81,7 @@ def FuzzerRunOne(FuzzerInput):
         except (
             zipfile.BadZipFile,
             zlib.error,
+            lzma.LZMAError,
             NotImplementedError,
             UnicodeDecodeError,
             UnicodeEncodeError,
