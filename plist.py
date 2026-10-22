@@ -11,6 +11,9 @@ def FuzzerRunOne(FuzzerInput):
         return
     except ValueError:
         return
+    except LookupError:
+        # XML input can declare an unknown encoding.
+        return
     try:
         plistlib.dumps(data, skipkeys=True, fmt=plistlib.FMT_XML)
         plistlib.dumps(data, skipkeys=True, fmt=plistlib.FMT_BINARY)
