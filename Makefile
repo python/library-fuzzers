@@ -1,6 +1,9 @@
-all: fuzzer-binascii fuzzer-html fuzzer-email fuzzer-httpclient fuzzer-json fuzzer-difflib fuzzer-csv fuzzer-decode fuzzer-ast fuzzer-tarfile fuzzer-tarfile-hypothesis fuzzer-zipfile fuzzer-zipfile-hypothesis fuzzer-re fuzzer-configparser fuzzer-tomllib fuzzer-plistlib fuzzer-xml fuzzer-zoneinfo
+C_FUZZ_TESTS := $(shell cat fuzz_tests.txt)
+
+all: fuzzer-binascii fuzzer-html fuzzer-email fuzzer-httpclient fuzzer-json fuzzer-difflib fuzzer-csv fuzzer-decode fuzzer-ast fuzzer-tarfile fuzzer-tarfile-hypothesis fuzzer-zipfile fuzzer-zipfile-hypothesis fuzzer-re fuzzer-configparser fuzzer-tomllib fuzzer-plistlib fuzzer-xml fuzzer-zoneinfo $(C_FUZZ_TESTS)
 
 PYTHON_CONFIG_PATH=$(CPYTHON_INSTALL_PATH)/bin/python3-config
+CFLAGS += $(shell $(PYTHON_CONFIG_PATH) --cflags)
 CXXFLAGS += $(shell $(PYTHON_CONFIG_PATH) --cflags)
 LDFLAGS += -rdynamic $(shell $(PYTHON_CONFIG_PATH) --ldflags --embed) $(CPYTHON_MODLIBS) -Wl,--allow-multiple-definition
 
@@ -42,3 +45,8 @@ fuzzer-xml:
 	clang++ $(CXXFLAGS) $(LIB_FUZZING_ENGINE) -std=c++17 fuzzer.cpp -DPYTHON_HARNESS_PATH="\"xml.py\"" -ldl $(LDFLAGS) -o fuzzer-xml
 fuzzer-zoneinfo:
 	clang++ $(CXXFLAGS) $(LIB_FUZZING_ENGINE) -std=c++17 fuzzer.cpp -DPYTHON_HARNESS_PATH="\"zoneinfo.py\"" -ldl $(LDFLAGS) -o fuzzer-zoneinfo
+
+# C fuzz targets
+$(C_FUZZ_TESTS): %: fuzzer.c
+	clang $(CFLAGS) -D _Py_FUZZ_ONE -D _Py_FUZZ_$@ -c -Wno-unused-function fuzzer.c -o $@.o
+	clang++ $(CXXFLAGS) -rdynamic $@.o $(LIB_FUZZING_ENGINE) $(LDFLAGS) -o $@
