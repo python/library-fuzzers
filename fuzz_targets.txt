@@ -12,6 +12,7 @@ plistlib plist.py
 re re.py
 tarfile tarfile.py
 tarfile-hypothesis tarfile_hypothesis.py
+textio textio.py
 tomllib tomllib.py
 xml xml.py
 zipfile zipfile.py
